@@ -14,7 +14,7 @@
             </v-text-field>
           </form>
           <br />
-          <div class="error" v-html="error"></div>
+          <div class="danger-alert" v-html="error"></div>
           <br />
           <v-btn
             dark
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import Panel from '@/components/Panel';
 import AuthenticationService from '@/services/AuthenticationService';
 
 export default {
@@ -49,13 +48,13 @@ export default {
         });
         this.$store.dispatch('setToken', response.data.token);
         this.$store.dispatch('setUser', response.data.user);
+        this.$router.push({
+          name: 'songs'
+        });
       } catch (error) {
         this.error = error.response.data.error;
       }
     }
-  },
-  components: {
-    Panel
   }
 };
 </script>
