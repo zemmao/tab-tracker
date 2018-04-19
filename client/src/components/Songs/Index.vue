@@ -1,7 +1,14 @@
 <template>
   <v-container>
-    <v-layout column>
-      <v-flex xs8 offset-xs2>
+    <v-layout>
+      <v-flex xs6 v-if="isUserLoggedIn">
+        <songs-bookmarks></songs-bookmarks>
+        <recently-viewed-songs class="mt-2"></recently-viewed-songs>
+      </v-flex>
+      <v-flex :class="{
+          xs12: !isUserLoggedIn,
+          xs6: isUserLoggedIn
+        }" class="ml-2">
         <songs-search-panel></songs-search-panel>
         <songs-panel class="mt-2"></songs-panel>
       </v-flex>
@@ -10,7 +17,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import SongsPanel from './SongsPanel';
+import SongsBookmarks from './SongsBookmarks';
+import RecentlyViewedSongs from './RecentlyViewedSongs';
 import SongsSearchPanel from './SongsSearchPanel';
 import SongsService from '@/services/SongsService';
 
@@ -20,8 +30,15 @@ export default {
       songs: null
     };
   },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn'
+    ])
+  },
   components: {
     SongsPanel,
+    SongsBookmarks,
+    RecentlyViewedSongs,
     SongsSearchPanel
   },
   async mounted () {
